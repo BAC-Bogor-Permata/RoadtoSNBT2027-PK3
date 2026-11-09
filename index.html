@@ -826,6 +826,11 @@
     }
 
     async function saveToDB(key, data) {
+      // Penyimpanan instan via localStorage sebagai proteksi utama saat keluar web tiba-tiba
+      try {
+        localStorage.setItem(key, JSON.stringify(data));
+      } catch (e) {}
+
       try {
         const db = await openDatabase();
         if (!db) return;
@@ -838,6 +843,16 @@
     }
 
     async function loadFromDB(key) {
+      // Cek localStorage terlebih dahulu untuk pengambilan data instan
+      try {
+        const localVal = localStorage.getItem(key);
+        if (localVal) {
+          const parsed = JSON.parse(localVal);
+          if (parsed !== null && parsed !== undefined) return parsed;
+        }
+      } catch (e) {}
+
+      // Fallback ke IndexedDB
       try {
         const db = await openDatabase();
         if (!db) return null;
@@ -935,33 +950,33 @@
     async function initSystemState() {
       if (!checkDeadlineAccess()) return;
 
-      // Cek apakah siswa sudah pernah menyelesaikan latihan (Fitur 1 Kali Pengerjaan)
+      // 1. Cek apakah siswa sudah pernah menyelesaikan latihan (Fitur 1 Kali Pengerjaan)
       const finishedState = await loadFromDB("snbt_finished_submission");
       if (finishedState && finishedState.isCompleted) {
         document.getElementById('welcome-view').classList.add('hidden');
+        document.getElementById('quiz-view').classList.add('hidden');
         document.getElementById('already-completed-banner').classList.remove('hidden');
-        studentName = finishedState.studentName;
-        studentClass = finishedState.studentClass;
+        studentName = finishedState.studentName || "";
+        studentClass = finishedState.studentClass || "";
         userAnswers = finishedState.userAnswers || {};
         shuffledOptionsMap = finishedState.shuffledOptionsMap || {};
         renderClosingSummary(finishedState.cachedMetrics);
         return;
       }
 
-      // Cek apakah ada progres autosave yang belum selesai
+      // 2. Cek apakah ada progres aktif: langsung masuk otomatis ke pengerjaan soal terakhir
       const savedProgress = await loadFromDB("snbt_active_progress");
-      if (savedProgress && !savedProgress.isCompleted && Object.keys(savedProgress.userAnswers || {}).length > 0) {
-        document.getElementById('recovery-banner').classList.remove('hidden');
-        document.getElementById('student-name').value = savedProgress.studentName || "";
-        document.getElementById('student-class').value = savedProgress.studentClass || "";
+      if (savedProgress && !savedProgress.isCompleted && savedProgress.studentName) {
+        // Otomatis langsung masuk ke pengerjaan tanpa menampilkan halaman awal atau tombol Mulai
+        resumeSavedDrill(savedProgress);
+        return;
       }
     }
 
-    /* Lanjutkan Sesi Tersimpan (Autosave Recovery) */
-    async function resumeSavedDrill() {
-      const savedProgress = await loadFromDB("snbt_active_progress");
+    /* Lanjutkan Sesi Tersimpan Otomatis ke Soal Terakhir */
+    async function resumeSavedDrill(dataPassed) {
+      const savedProgress = dataPassed || (await loadFromDB("snbt_active_progress"));
       if (!savedProgress) {
-        startDrill();
         return;
       }
 
@@ -974,10 +989,12 @@
       userAnswers = savedProgress.userAnswers || {};
       shuffledOptionsMap = savedProgress.shuffledOptionsMap || {};
       totalElapsedSeconds = savedProgress.totalElapsedSeconds || 0;
-      currentQuestionSeconds = savedProgress.remainingSeconds || getQuestionDuration(currentCategory, currentQuestionId);
+      currentQuestionSeconds = (savedProgress.remainingSeconds !== undefined && savedProgress.remainingSeconds > 0)
+        ? savedProgress.remainingSeconds
+        : getQuestionDuration(currentCategory, currentQuestionId);
 
       launchDrillUI();
-      showToast("Sesi pengerjaan berhasil dipulihkan dari soal terakhir!", "💾");
+      showToast(`Melanjutkan latihan otomatis dari soal terakhir untuk ${studentName}`, "💾");
     }
 
     /* Mulai Latihan Baru */
@@ -1026,6 +1043,24 @@
       const activeStudentBadge = document.getElementById('active-student-badge');
       if (activeStudentBadge) {
         activeStudentBadge.innerText = `${studentName} (${studentClass})`;
+      }
+
+      if (currentCategory === 'pk') {
+        document.getElementById('section-type-badge').innerText = "Tahap 2: Pengetahuan Kuantitatif";
+        document.getElementById('stage-status-indicator').innerHTML = `
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Tahap 2 dari 2 (Terakhir)
+        `;
+        document.getElementById('matdas-progress-container').classList.add('hidden');
+        document.getElementById('pk-palette-container').classList.remove('hidden');
+      } else {
+        document.getElementById('section-type-badge').innerText = "Tahap 1: Pendalaman Matematika Dasar";
+        document.getElementById('stage-status-indicator').innerHTML = `
+          <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+          Tahap 1 dari 2
+        `;
+        document.getElementById('matdas-progress-container').classList.remove('hidden');
+        document.getElementById('pk-palette-container').classList.add('hidden');
       }
 
       isTestActive = true;
@@ -1115,9 +1150,10 @@
       }, 600);
     }
 
-    /* Autosave Data ke IndexedDB */
+    /* Autosave Data ke IndexedDB & LocalStorage */
     function triggerAutosave() {
-      saveToDB("snbt_active_progress", {
+      if (!isTestActive && !studentName) return;
+      const progressPayload = {
         studentName,
         studentClass,
         currentCategory,
@@ -1130,7 +1166,9 @@
         totalElapsedSeconds,
         isCompleted: false,
         timestamp: new Date().toISOString()
-      });
+      };
+
+      saveToDB("snbt_active_progress", progressPayload);
 
       const indicator = document.getElementById('autosave-indicator');
       if (indicator) {
@@ -1570,6 +1608,9 @@
 
       // Hapus data progres aktif yang belum selesai
       await saveToDB("snbt_active_progress", null);
+      try {
+        localStorage.removeItem("snbt_active_progress");
+      } catch (e) {}
 
       // Render halaman penutup
       document.getElementById('quiz-view').classList.add('hidden');
@@ -1944,6 +1985,19 @@
         toastBox.classList.add('translate-y-20', 'opacity-0');
       }, 3000);
     }
+
+    // Auto-save saat siswa berpindah tab, menutup browser, atau keluar dari aplikasi
+    window.addEventListener('beforeunload', () => {
+      if (isTestActive) {
+        triggerAutosave();
+      }
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden' && isTestActive) {
+        triggerAutosave();
+      }
+    });
 
     // Inisialisasi awal saat window dimuat
     window.onload = function() {
