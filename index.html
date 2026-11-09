@@ -413,63 +413,76 @@
           </div>
         </div>
 
-        <!-- Score Summary Cards -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 my-6">
-          <div class="bg-slate-50 p-3 sm:p-4 rounded-xl border border-slate-200 text-center">
-            <span class="text-[10px] sm:text-xs font-semibold uppercase text-slate-500">Skor Akhir (Poin Rata)</span>
-            <div id="final-score-val" class="text-2xl sm:text-3xl font-black text-blue-600 mt-1">0</div>
-            <span class="text-[10px] sm:text-[11px] text-slate-400">Skala 100</span>
+        <!-- Score Summary Cards: Terbagi Menjadi 2 Nilai Utama -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 my-6">
+          <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-200 text-center">
+            <span class="text-[10px] sm:text-xs font-bold uppercase text-blue-800">1. Nilai Matematika Dasar</span>
+            <div id="matdas-score-val" class="text-2xl sm:text-3xl font-black text-blue-700 mt-1">0</div>
+            <span class="text-[10px] sm:text-xs text-blue-600 font-semibold" id="matdas-ratio-val">0/0 soal ditampilkan</span>
           </div>
 
-          <div class="bg-emerald-50 p-3 sm:p-4 rounded-xl border border-emerald-200 text-center">
-            <span class="text-[10px] sm:text-xs font-semibold uppercase text-emerald-700">Total Benar</span>
+          <div class="bg-indigo-50/70 p-4 rounded-xl border border-indigo-200 text-center">
+            <span class="text-[10px] sm:text-xs font-bold uppercase text-indigo-800">2. Nilai Pengetahuan Kuantitatif</span>
+            <div id="pk-score-val" class="text-2xl sm:text-3xl font-black text-indigo-700 mt-1">0</div>
+            <span class="text-[10px] sm:text-xs text-indigo-600 font-semibold" id="pk-ratio-val">0/10 soal ditampilkan</span>
+          </div>
+
+          <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200 text-center">
+            <span class="text-[10px] sm:text-xs font-bold uppercase text-emerald-800">Total Benar</span>
             <div id="total-correct-val" class="text-2xl sm:text-3xl font-black text-emerald-600 mt-1">0</div>
-            <span class="text-[10px] sm:text-[11px] text-emerald-600 font-medium" id="correct-ratio-val">0 dari 0 dikerjakan</span>
+            <span class="text-[10px] sm:text-xs text-emerald-600 font-medium" id="correct-ratio-val">0 dari 0 dikerjakan</span>
           </div>
 
-          <div class="bg-rose-50 p-3 sm:p-4 rounded-xl border border-rose-200 text-center">
-            <span class="text-[10px] sm:text-xs font-semibold uppercase text-rose-700">Total Salah</span>
+          <div class="bg-rose-50 p-4 rounded-xl border border-rose-200 text-center">
+            <span class="text-[10px] sm:text-xs font-bold uppercase text-rose-800">Total Salah</span>
             <div id="total-wrong-val" class="text-2xl sm:text-3xl font-black text-rose-600 mt-1">0</div>
-            <span class="text-[10px] sm:text-[11px] text-rose-600 font-medium">Perlu Penguatan</span>
-          </div>
-
-          <div class="bg-indigo-50 p-3 sm:p-4 rounded-xl border border-indigo-200 text-center">
-            <span class="text-[10px] sm:text-xs font-semibold uppercase text-indigo-700">Akurasi Pengerjaan</span>
-            <div id="accuracy-rate-val" class="text-2xl sm:text-3xl font-black text-indigo-600 mt-1">0%</div>
-            <span class="text-[10px] sm:text-[11px] text-indigo-600 font-medium">Tingkat Ketepatan</span>
+            <span class="text-[10px] sm:text-xs text-rose-600 font-medium">Perlu Penguatan</span>
           </div>
         </div>
 
-        <!-- Format Wajib Analisis Sesuai Permintaan Spesifik Prompt -->
+        <!-- Wadah Format Analisis Mentah: Disembunyikan (Hidden) Sesuai Permintaan Agar Tampilan Rapi, Namun Tetap Tersedia untuk Sistem & Google Spreadsheet -->
+        <div id="formatted-analysis-container" class="hidden" aria-hidden="true">
+          <div id="formatted-analysis-box"></div>
+        </div>
+
+        <!-- Ringkasan Status Penguasaan Tiap Subtopik (Tampilan Baru yang Bersih & Rapi) -->
         <div class="mt-6 sm:mt-8">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-xs sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
-              <svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-xs sm:text-base font-bold text-slate-900 flex items-center gap-2">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
               </svg>
-              Format Analisis Ringkas Subtopik
+              Pemetaan Penguasaan Subtopik
             </h3>
-            <button onclick="copyAnalysisText()" class="text-[11px] sm:text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200 flex items-center gap-1 transition">
+            <button onclick="copyAnalysisText()" class="text-[11px] sm:text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100/80 px-3 py-1.5 rounded-lg border border-blue-200 flex items-center gap-1.5 transition shadow-xs">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-              Salin Format Analisis
+              Salin Laporan Analisis
             </button>
           </div>
 
-          <!-- Wadah Teks Format Analisis Sesuai Format:
-               subtopik .... (banyak benar/jumlah soal subtopik tersebut) | subtopik .... (banyak benar/jumlah soal subtopik tersebut) -->
-          <div id="formatted-analysis-box" class="p-3 sm:p-4 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto selection:bg-blue-500 selection:text-white">
-            <!-- Format generated dynamically -->
+          <div id="subtopics-summary-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <!-- Dynamically populated: badge subtopik, rasio benar/total, status tuntas/perlu penguatan -->
           </div>
         </div>
 
         <!-- Rekomendasi Konsultasi Pengajar Brain Academy -->
-        <div class="mt-6 sm:mt-8">
-          <h3 class="text-xs sm:text-base font-bold text-slate-900 mb-3 flex items-center gap-1.5">
-            <span class="text-base sm:text-lg">🎯</span>
-            Rekomendasi Agenda Konsultasi & Penguatan (Klinik PR BA)
-          </h3>
-          <div id="consultation-guidance" class="space-y-2.5 sm:space-y-3">
-            <!-- Dynamically populated based on student mistakes -->
+        <div class="mt-8 pt-6 border-t border-slate-100">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-base border border-blue-200 flex-shrink-0">
+              🎯
+            </div>
+            <div>
+              <h3 class="text-xs sm:text-base font-bold text-slate-900 leading-tight">
+                Rekomendasi Agenda Konsultasi & Penguatan (Klinik PR BA)
+              </h3>
+              <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5">
+                Bawa poin-poin fokus di bawah ini saat berkonsultasi langsung dengan Fasilitator / Master Teacher Brain Academy.
+              </p>
+            </div>
+          </div>
+          
+          <div id="consultation-guidance" class="space-y-3">
+            <!-- Dynamically populated with enhanced cards and MathJax LaTeX rendering -->
           </div>
         </div>
 
@@ -526,7 +539,7 @@
     const EXAM_CONFIG = {
       // Ubah ENABLE_DEADLINE menjadi false jika ingin membuka latihan untuk uji coba bebas kapan saja
       ENABLE_DEADLINE: true,
-      START_TIME: "2026-11-06T00:00:00+07:00", // Buka: 6 Nov 2026, 00:00:00 WIB
+      START_TIME: "2026-11-09T00:00:00+07:00", // Buka: 6 Nov 2026, 00:00:00 WIB
       END_TIME:   "2026-11-15T23:59:59+07:00"  // Tutup: 15 Nov 2026, 23:59:59 WIB
     };
 
@@ -851,6 +864,7 @@
     let autoAdvanceTimer = null;
     let questionCountdownInterval = null;
     let currentQuestionSeconds = getQuestionDuration('matdas', 6);
+    let totalElapsedSeconds = 0;
     let isTestActive = false;
     let isSubmitting = false;
 
@@ -926,6 +940,7 @@
       currentSectionIdx = savedProgress.currentSectionIdx || 0;
       remedialActive = savedProgress.remedialActive || false;
       userAnswers = savedProgress.userAnswers || {};
+      totalElapsedSeconds = savedProgress.totalElapsedSeconds || 0;
       currentQuestionSeconds = savedProgress.remainingSeconds || getQuestionDuration(currentCategory, currentQuestionId);
 
       launchDrillUI();
@@ -958,6 +973,7 @@
       currentSectionIdx = 0;
       remedialActive = false;
       currentQuestionId = 6;
+      totalElapsedSeconds = 0;
       currentQuestionSeconds = getQuestionDuration('matdas', 6);
 
       launchDrillUI();
@@ -1001,6 +1017,7 @@
       questionCountdownInterval = setInterval(() => {
         if (!isTestActive) return;
 
+        totalElapsedSeconds++;
         currentQuestionSeconds--;
 
         if (currentQuestionSeconds <= 0) {
@@ -1074,6 +1091,7 @@
         remedialActive,
         userAnswers,
         remainingSeconds: currentQuestionSeconds,
+        totalElapsedSeconds,
         isCompleted: false,
         timestamp: new Date().toISOString()
       });
@@ -1525,25 +1543,11 @@
     }
 
     function calculateMetrics() {
-      const answeredKeys = Object.keys(userAnswers);
-      let totalCorrect = 0;
-      let totalWrong = 0;
-      let totalAnswered = answeredKeys.length;
-
-      answeredKeys.forEach(k => {
-        if (userAnswers[k].isCorrect) {
-          totalCorrect++;
-        } else {
-          totalWrong++;
-        }
-      });
-
-      const scoreScale100 = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
-      const accuracyRate = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
-
-      // Format Baku Analisis Sesuai Permintaan Prompt:
-      // "subtopik .... (banyak benar/jumlah soal subtopik tersebut) | subtopik .... (banyak benar/jumlah soal subtopik tersebut)"
-      let analysisSegments = [];
+      // 1. Hitung Hasil Pendalaman Matematika Dasar (Bagian A - M)
+      let matdasAnswered = 0;
+      let matdasCorrect = 0;
+      let matdasLines = [];
+      let subtopicBreakdown = [];
       let consultationNotes = [];
 
       SECTIONS_METADATA.forEach(sec => {
@@ -1560,54 +1564,128 @@
           }
         }
 
-        if (secAnsweredCount > 0) {
-          analysisSegments.push(`subtopik ${sec.title} (Bagian ${sec.code}) (${secCorrectCount}/${secAnsweredCount})`);
+        matdasAnswered += secAnsweredCount;
+        matdasCorrect += secCorrectCount;
 
-          if (secCorrectCount < secAnsweredCount) {
-            consultationNotes.push({
-              title: `Bagian ${sec.code}: ${sec.title}`,
-              stats: `${secCorrectCount} benar dari ${secAnsweredCount} dikerjakan`,
-              priority: (secCorrectCount === 0) ? "Prioritas Utama (Konsep Dasar)" : "Penguatan Variasi Soal",
-              rec: getRecommendationText(sec.code)
-            });
-          }
-        }
-      });
+        // Format baris analisis Matdas:
+        // A. Subtopik Operasi Hitung Bilangan Bulat (Bagian A) (1/2)
+        const ratioText = `(${secCorrectCount}/${secAnsweredCount})`;
+        matdasLines.push(`${sec.code}. Subtopik ${sec.title} (Bagian ${sec.code}) ${ratioText}`);
 
-      let pkAnsweredCount = 0;
-      let pkCorrectCount = 0;
-      PK_QUESTIONS.forEach(q => {
-        const key = `pk_${q.id}`;
-        if (userAnswers[key]) {
-          pkAnsweredCount++;
-          if (userAnswers[key].isCorrect) {
-            pkCorrectCount++;
-          }
-        }
-      });
+        const isFullyMastered = (secAnsweredCount > 0 && secCorrectCount === secAnsweredCount);
+        subtopicBreakdown.push({
+          code: `Bagian ${sec.code}`,
+          title: sec.title,
+          correct: secCorrectCount,
+          total: secAnsweredCount,
+          isMastered: isFullyMastered,
+          badgeClass: isFullyMastered 
+            ? "bg-emerald-50 text-emerald-700 border-emerald-200" 
+            : "bg-amber-50 text-amber-700 border-amber-200",
+          statusLabel: isFullyMastered ? "Tuntas" : "Perlu Penguatan"
+        });
 
-      if (pkAnsweredCount > 0) {
-        analysisSegments.push(`subtopik Pengetahuan Kuantitatif (Geometri dan Pengukuran) (${pkCorrectCount}/${pkAnsweredCount})`);
-        if (pkCorrectCount < pkAnsweredCount) {
+        if (secAnsweredCount > 0 && !isFullyMastered) {
           consultationNotes.push({
-            title: "Pengetahuan Kuantitatif: Geometri dan Pengukuran",
-            stats: `${pkCorrectCount} benar dari ${pkAnsweredCount} dikerjakan`,
-            priority: "Analisis Geometri & Aljabar",
-            rec: "Konsultasikan penguasaan bangun ruang dimensi tiga, sifat sudut tali busur, dan evaluasi hubungan kuantitas P & Q bersama Master Teacher."
+            title: `Bagian ${sec.code}: ${sec.title}`,
+            stats: `${secCorrectCount} benar dari ${secAnsweredCount} dikerjakan`,
+            priority: (secCorrectCount === 0) ? "Prioritas Utama (Konsep Dasar)" : "Penguatan Variasi Soal",
+            rec: getRecommendationText(sec.code)
           });
         }
+      });
+
+      const matdasWrong = matdasAnswered - matdasCorrect;
+      const matdasScore = matdasAnswered > 0 ? Math.round((matdasCorrect / matdasAnswered) * 100) : 0;
+
+      // 2. Hitung Hasil Pengetahuan Kuantitatif (Dikelompokkan ke dalam 4 Subtopik A - D)
+      const pkSubtopicsDef = [
+        { code: "A", title: "Jarak, Garis, dan Sudut", qIds: [1, 10] },
+        { code: "B", title: "Bangun Datar", qIds: [2, 3, 5, 7] },
+        { code: "C", title: "Jarak, Garis, dan Koordinat Kartesius", qIds: [4] },
+        { code: "D", title: "Bangun Ruang Dimensi Tiga", qIds: [6, 8, 9] }
+      ];
+
+      let pkAnswered = 0;
+      let pkCorrect = 0;
+      let pkLines = [];
+
+      pkSubtopicsDef.forEach(sub => {
+        let subCorrect = 0;
+        let subAnswered = 0;
+
+        sub.qIds.forEach(id => {
+          const key = `pk_${id}`;
+          if (userAnswers[key]) {
+            subAnswered++;
+            if (userAnswers[key].isCorrect) {
+              subCorrect++;
+            }
+          }
+        });
+
+        pkAnswered += subAnswered;
+        pkCorrect += subCorrect;
+
+        // Format baris analisis PK:
+        // A. Subtopik Jarak, Garis, dan Sudut (2/2)
+        const ratioText = `(${subCorrect}/${subAnswered})`;
+        pkLines.push(`${sub.code}. Subtopik ${sub.title} ${ratioText}`);
+
+        const isMastered = (subAnswered > 0 && subCorrect === subAnswered);
+        subtopicBreakdown.push({
+          code: `PK - Bagian ${sub.code}`,
+          title: sub.title,
+          correct: subCorrect,
+          total: subAnswered,
+          isMastered: isMastered,
+          badgeClass: isMastered 
+            ? "bg-emerald-50 text-emerald-700 border-emerald-200" 
+            : "bg-purple-50 text-purple-700 border-purple-200",
+          statusLabel: isMastered ? "Tuntas" : "Perlu Penguatan"
+        });
+      });
+
+      const pkWrong = pkAnswered - pkCorrect;
+      const pkScore = pkAnswered > 0 ? Math.round((pkCorrect / pkAnswered) * 100) : 0;
+
+      if (pkAnswered > 0 && pkCorrect < pkAnswered) {
+        consultationNotes.push({
+          title: "Pengetahuan Kuantitatif: Geometri dan Pengukuran",
+          stats: `${pkCorrect} benar dari ${pkAnswered} dikerjakan`,
+          priority: (pkCorrect <= 3) ? "Prioritas Utama (Konsep Dasar)" : "Penguatan Analisis SNBT",
+          rec: "Konsultasikan penguasaan bangun ruang dimensi tiga (jarak titik ke garis kubus $ABCD.EFGH$), sudut garis singgung dan tali busur lingkaran, serta strategi perbandingan kuantitas $P$ dan $Q$ bersama Master Teacher."
+        });
       }
 
-      const fullAnalysisText = analysisSegments.join(" | ");
+      // 3. Susun Format Analisis Latihan Mentah Sesuai Permintaan
+      const fullAnalysisText = `1. Analisis Pendalaman Matematika Dasar:\n${matdasLines.join("\n")}\n\n2. Analisis Pengetahuan Kuantitatif:\n${pkLines.join("\n")}`;
+
+      const totalAnswered = matdasAnswered + pkAnswered;
+      const totalCorrect = matdasCorrect + pkCorrect;
+      const totalWrong = matdasWrong + pkWrong;
+      const overallScore = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+      const accuracyRate = overallScore;
 
       return {
-        scoreScale100,
+        matdasScore,
+        matdasCorrect,
+        matdasWrong,
+        matdasAnswered,
+        matdasLines,
+        pkScore,
+        pkCorrect,
+        pkWrong,
+        pkAnswered,
+        pkLines,
+        totalAnswered,
         totalCorrect,
         totalWrong,
-        totalAnswered,
+        overallScore,
         accuracyRate,
         fullAnalysisText,
-        consultationNotes
+        consultationNotes,
+        subtopicBreakdown
       };
     }
 
@@ -1615,41 +1693,108 @@
       document.getElementById('student-name-result').innerText = studentName;
       document.getElementById('student-class-result').innerText = `Kelas ${studentClass}`;
 
-      document.getElementById('final-score-val').innerText = metrics.scoreScale100;
+      // 1. Nilai Pendalaman Matematika Dasar
+      document.getElementById('matdas-score-val').innerText = metrics.matdasScore;
+      document.getElementById('matdas-ratio-val').innerText = `${metrics.matdasCorrect} benar dari ${metrics.matdasAnswered} soal ditampilkan`;
+
+      // 2. Nilai Pengetahuan Kuantitatif
+      document.getElementById('pk-score-val').innerText = metrics.pkScore;
+      document.getElementById('pk-ratio-val').innerText = `${metrics.pkCorrect} benar dari ${metrics.pkAnswered} soal ditampilkan`;
+
+      // Ringkasan Gabungan
       document.getElementById('total-correct-val').innerText = metrics.totalCorrect;
       document.getElementById('total-wrong-val').innerText = metrics.totalWrong;
       document.getElementById('correct-ratio-val').innerText = `${metrics.totalCorrect} benar dari ${metrics.totalAnswered} dikerjakan`;
-      document.getElementById('accuracy-rate-val').innerText = `${metrics.accuracyRate}%`;
 
-      document.getElementById('formatted-analysis-box').innerText = metrics.fullAnalysisText || "Belum ada analisis yang terekam.";
+      // Simpan format analisis dua bagian di elemen tersembunyi
+      document.getElementById('formatted-analysis-box').innerText = metrics.fullAnalysisText;
 
+      // 1. Render Pemetaan Penguasaan Subtopik (Tampilan Bersih & Rapi)
+      const subtopicsGrid = document.getElementById('subtopics-summary-grid');
+      if (subtopicsGrid) {
+        subtopicsGrid.innerHTML = '';
+        if (metrics.subtopicBreakdown && metrics.subtopicBreakdown.length > 0) {
+          metrics.subtopicBreakdown.forEach(item => {
+            const row = document.createElement('div');
+            row.className = "flex items-center justify-between p-3 rounded-xl border border-slate-200/80 bg-slate-50 text-xs";
+            row.innerHTML = `
+              <div class="min-w-0 pr-2">
+                <span class="font-bold text-slate-800 truncate block">${item.code}: ${item.title}</span>
+                <span class="text-slate-500 text-[11px]">${item.correct} benar dari ${item.total} dikerjakan</span>
+              </div>
+              <div class="flex-shrink-0">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${item.badgeClass}">
+                  ${item.statusLabel}
+                </span>
+              </div>
+            `;
+            subtopicsGrid.appendChild(row);
+          });
+        }
+      }
+
+      // 2. Render Kartu Rekomendasi Konsultasi Klinik PR BA (Desain Premium & Rapi)
       const consultContainer = document.getElementById('consultation-guidance');
       consultContainer.innerHTML = '';
 
       if (metrics.consultationNotes.length === 0) {
         consultContainer.innerHTML = `
-          <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs sm:text-sm">
-            <span class="font-bold">🌟 Sempurna!</span> Seluruh subtopik berhasil dijawab dengan benar 100%. Terus pertahankan ritme belajar ini!
+          <div class="p-5 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border border-emerald-200 rounded-2xl text-emerald-900 text-xs sm:text-sm flex items-center gap-3 shadow-xs">
+            <span class="text-3xl">🎉</span>
+            <div>
+              <p class="font-extrabold text-emerald-800 text-sm sm:text-base">Luar Biasa, Pemahaman Konsep Sangat Sempurna!</p>
+              <p class="text-emerald-700 mt-0.5 leading-relaxed">Seluruh materi yang dikerjakan berhasil dijawab dengan benar 100%. Pertahankan performa ini untuk latihan mingguan subtes berikutnya ya!</p>
+            </div>
           </div>
         `;
       } else {
         metrics.consultationNotes.forEach(item => {
+          const isUrgent = item.priority.includes("Utama");
           const card = document.createElement('div');
-          card.className = "p-3 sm:p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-blue-300 transition text-xs sm:text-sm";
+          
+          card.className = `p-4 sm:p-5 rounded-2xl border transition-all text-xs sm:text-sm shadow-xs ${
+            isUrgent 
+              ? 'bg-white border-l-4 border-l-rose-500 border-slate-200 hover:border-slate-300' 
+              : 'bg-white border-l-4 border-l-blue-500 border-slate-200 hover:border-slate-300'
+          }`;
+          
           card.innerHTML = `
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-              <span class="font-bold text-slate-900">${item.title}</span>
-              <span class="text-[10px] sm:text-xs font-semibold px-2 py-0.5 rounded-full ${
-                item.priority.includes("Utama") ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800'
-              }">${item.priority}</span>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pb-2.5 border-b border-slate-100 mb-3">
+              <div class="flex items-center gap-2">
+                <span class="font-extrabold text-slate-900 text-sm sm:text-base">${item.title}</span>
+              </div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="inline-flex items-center gap-1 font-semibold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg text-xs border border-slate-200">
+                  <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  ${item.stats}
+                </span>
+                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg border ${
+                  isUrgent 
+                    ? 'bg-rose-50 text-rose-700 border-rose-200' 
+                    : 'bg-amber-50 text-amber-800 border-amber-200'
+                }">
+                  ${item.priority}
+                </span>
+              </div>
             </div>
-            <p class="text-slate-600 text-xs mb-1.5">Pencapaian: <strong class="text-slate-800">${item.stats}</strong></p>
-            <p class="text-slate-700 text-xs bg-white p-2.5 rounded-lg border border-slate-200 leading-relaxed">
-              <strong class="text-blue-700">Fokus Konsultasi:</strong> ${item.rec}
-            </p>
+            
+            <div class="bg-slate-50/90 rounded-xl p-3.5 border border-slate-200/80">
+              <div class="flex items-start gap-2.5">
+                <span class="text-blue-600 font-bold mt-0.5 text-base">💡</span>
+                <div class="text-slate-700 leading-relaxed font-normal overflow-x-auto select-none">
+                  <strong class="text-blue-700 font-bold">Fokus Konsultasi:</strong> ${item.rec}
+                </div>
+              </div>
+            </div>
           `;
           consultContainer.appendChild(card);
         });
+      }
+
+      // 3. Render MathJax typeset pada seluruh halaman penutup agar model matematika terformat sempurna
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise([document.getElementById('closing-view')])
+          .catch(err => console.debug("MathJax typesetting error on closing view:", err));
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1660,15 +1805,29 @@
       const syncStatus = document.getElementById('sync-status-indicator');
       syncStatus.innerHTML = `<span class="inline-block animate-spin mr-1">⏳</span> Menyinkronkan ke Spreadsheet PK3...`;
 
+      // Format durasi pengerjaan aktual siswa dalam format "menit:detik" (mm:ss)
+      const durM = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+      const durS = (totalElapsedSeconds % 60).toString().padStart(2, '0');
+      const formattedDuration = `${durM}:${durS}`;
+
       const payload = {
         timestamp: new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" }),
         namaSiswa: studentName,
+        studentName: studentName,
         kelas: studentClass,
-        nilai: metrics.scoreScale100,
+        studentClass: studentClass,
+        nilai: `Matdas: ${metrics.matdasScore} (${metrics.matdasCorrect}/${metrics.matdasAnswered}) | PK: ${metrics.pkScore} (${metrics.pkCorrect}/${metrics.pkAnswered})`,
+        score: `Matdas: ${metrics.matdasScore} (${metrics.matdasCorrect}/${metrics.matdasAnswered}) | PK: ${metrics.pkScore} (${metrics.pkCorrect}/${metrics.pkAnswered})`,
         jumlahBenar: metrics.totalCorrect,
+        totalCorrect: metrics.totalCorrect,
         jumlahSalah: metrics.totalWrong,
-        sisaWaktu: `${currentQuestionSeconds}s (Soal Terakhir)`,
-        analisisLatihan: metrics.fullAnalysisText
+        totalWrong: metrics.totalWrong,
+        durasiPengerjaan: formattedDuration,
+        workDuration: formattedDuration,
+        sisaWaktu: formattedDuration,
+        remainingTime: formattedDuration,
+        analisisLatihan: metrics.fullAnalysisText,
+        analysis: metrics.fullAnalysisText
       };
 
       try {
@@ -1692,19 +1851,19 @@
 
     function getRecommendationText(sectionCode) {
       const map = {
-        "A": "Perkuat ketelitian operasi penjumlahan/pengurangan bilangan bertanda negatif dan teknik simpan-pinjam.",
-        "B": "Review teknik penyamaan penyebut dengan KPK serta kebalikan pembagi pada operasi pecahan.",
-        "C": "Mantapkan konversi per seratus, per seribu, serta notasi garis atas desimal berulang.",
-        "D": "Latihan menyederhanakan pecahan ke bentuk paling ringkas serta bentuk desimal berulang.",
-        "E": "Tinjau aturan perkalian dua bilangan negatif menghasilkan positif dan perkalian desimal.",
-        "F": "Latih manipulasi aljabar persamaan satu variabel dan perkalian silang bentuk pecahan aljabar.",
-        "G": "Kuasai teknik rasio perbandingan jumlah total dan pemodelan umur matematika terapan.",
-        "H": "Pelajari trik isolasi variabel tunggal pada persamaan berakar dan rumus fisika (hambatan & percepatan).",
-        "I": "Fokus mengelompokkan hanya suku-suku yang berordo sejenis sebelum mengoperasikan koefisien.",
-        "J": "Tingkatkan ketelitian sifat distributif perkalian suku dua $(a+b)(c+d)$ serta perkalian variabel aljabar.",
-        "K": "Latih pola faktorisasi selisih kuadrat $a^2-b^2$ dan pemfaktoran bentuk kuadrat $ax^2+bx+c$.",
-        "L": "Kuasai teknik merasionalkan penyebut pecahan akar sekawan serta penyederhanaan radikal.",
-        "M": "Review kaidah persamaan eksponen $a^{f(x)} = b^{f(x)}$ dan penyamaan basis bilangan pokok."
+        "A": "Perkuat ketelitian operasi penjumlahan dan pengurangan bilangan bertanda negatif serta teknik simpan-pinjam pada bilangan bulat.",
+        "B": "Review teknik penyamaan penyebut pecahan dengan KPK serta sifat pembagian pecahan biasa: $\\frac{a}{b} \\div \\frac{c}{d} = \\frac{a}{b} \\times \\frac{d}{c}$.",
+        "C": "Mantapkan konversi pecahan biasa ke bentuk desimal per seratus atau per seribu, serta penulisan tanda vinculum (garis atas) pada desimal berulang seperti $0,\\overline{45}$.",
+        "D": "Tingkatkan ketelitian menyederhanakan pecahan dengan membagi FPB pembilang dan penyebut, serta mengubah desimal berulang tak hingga $0,555...$ menjadi pecahan biasa $\\frac{5}{9}$.",
+        "E": "Tinjau kembali aturan tanda perkalian dua bilangan negatif $(-a) \\times (-b) = ab$ serta pembagian bilangan dengan desimal.",
+        "F": "Latih manipulasi aljabar pada Persamaan Linear Satu Variabel (PLSV) dan penyelesaian persamaan pecahan menggunakan perkalian silang $\\frac{ax+b}{c} = \\frac{dx+e}{f}$.",
+        "G": "Kuasai teknik rasio perbandingan jumlah total $m : n$ serta pemodelan matematika masalah kata hubungan usia bertambah tahun.",
+        "H": "Pelajari teknik isolasi variabel tunggal pada persamaan berakar $p = \\sqrt{\\frac{q}{r}} + s$, rumus hambatan paralel $\\frac{1}{R} = \\frac{1}{R_1} + \\frac{1}{R_2}$, dan percepatan $a = \\frac{v_t - v_0}{t}$.",
+        "I": "Fokus pada pengelompokan suku-suku berderajat sejenis (seperti suku berpeubah $x^2y$ dengan sesama $x^2y$) sebelum melakukan operasi penjumlahan atau pengurangan aljabar.",
+        "J": "Tingkatkan ketelitian sifat distributif perkalian suku dua $(a+b)(c+d) = ac + ad + bc + bd$ serta kaidah pangkat pada perkalian variabel $x \\cdot x = x^2$.",
+        "K": "Latih pola faktorisasi selisih dua kuadrat $a^2 - b^2 = (a+b)(a-b)$ dan pemfaktoran persamaan kuadrat bentuk $ax^2 + bx + c = (px+r)(qx+s)$.",
+        "L": "Kuasai teknik menyederhanakan bentuk radikal akar serta merasionalkan penyebut pecahan dengan perkalian akar sekawan $\\frac{c}{\\sqrt{a} \\pm \\sqrt{b}}$.",
+        "M": "Review kembali sifat-sifat persamaan eksponen untuk basis sama $a^{f(x)} = a^{g(x)}$ serta bentuk khusus $a^{f(x)} = b^{f(x)}$ dengan syarat $f(x) = 0$."
       };
       return map[sectionCode] || "Diskusikan materi ini pada sesi klinik belajar dengan Pengajar BA Bogor Permata.";
     }
