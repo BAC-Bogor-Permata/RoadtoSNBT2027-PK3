@@ -361,7 +361,7 @@
         <div id="input-container" class="mt-5 sm:mt-6 hidden">
           <label class="block text-xs sm:text-sm font-semibold text-slate-700 mb-2">Jawaban Anda (Bilangan Bulat Positif):</label>
           <div class="flex gap-2 sm:gap-3 max-w-xs">
-            <input type="number" id="numeric-answer-input" placeholder="Contoh: 42" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none text-base font-semibold">
+            <input type="number" id="numeric-answer-input" placeholder="Contoh: 24" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none text-base font-semibold">
             <button id="numeric-submit-btn" onclick="submitNumericAnswer()" class="px-5 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition">
               Kirim
             </button>
@@ -870,8 +870,39 @@
 
     // Jawaban Tersimpan: { "matdas_6": { selectedOption, isCorrect, questionId, category, section } }
     let userAnswers = {};
+    let shuffledOptionsMap = {}; // Menyimpan urutan acak opsi per soal untuk konsistensi perangkat & autosave
     let currentSectionIdx = 0;
     let remedialActive = false;
+
+    /* Algoritma Pengacakan Opsi Jawaban (Fisher-Yates Shuffle) */
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    /* Mengambil atau Menghasilkan Urutan Acak Opsi Per Soal di Perangkat */
+    function getShuffledOptionsForQuestion(qData, storageKey) {
+      if (shuffledOptionsMap[storageKey]) {
+        return shuffledOptionsMap[storageKey];
+      }
+
+      const originalEntries = Object.entries(qData.options);
+      const shuffledEntries = shuffleArray(originalEntries);
+      const labels = ["A", "B", "C", "D", "E", "F"];
+
+      const shuffledList = shuffledEntries.map(([origKey, text], idx) => ({
+        displayLabel: labels[idx],
+        originalKey: origKey,
+        text: text
+      }));
+
+      shuffledOptionsMap[storageKey] = shuffledList;
+      return shuffledList;
+    }
 
     /* Pengecekan Deadline Akses */
     function checkDeadlineAccess() {
@@ -912,6 +943,7 @@
         studentName = finishedState.studentName;
         studentClass = finishedState.studentClass;
         userAnswers = finishedState.userAnswers || {};
+        shuffledOptionsMap = finishedState.shuffledOptionsMap || {};
         renderClosingSummary(finishedState.cachedMetrics);
         return;
       }
@@ -940,6 +972,7 @@
       currentSectionIdx = savedProgress.currentSectionIdx || 0;
       remedialActive = savedProgress.remedialActive || false;
       userAnswers = savedProgress.userAnswers || {};
+      shuffledOptionsMap = savedProgress.shuffledOptionsMap || {};
       totalElapsedSeconds = savedProgress.totalElapsedSeconds || 0;
       currentQuestionSeconds = savedProgress.remainingSeconds || getQuestionDuration(currentCategory, currentQuestionId);
 
@@ -974,6 +1007,8 @@
       remedialActive = false;
       currentQuestionId = 6;
       totalElapsedSeconds = 0;
+      userAnswers = {};
+      shuffledOptionsMap = {};
       currentQuestionSeconds = getQuestionDuration('matdas', 6);
 
       launchDrillUI();
@@ -1090,6 +1125,7 @@
         currentSectionIdx,
         remedialActive,
         userAnswers,
+        shuffledOptionsMap,
         remainingSeconds: currentQuestionSeconds,
         totalElapsedSeconds,
         isCompleted: false,
@@ -1253,15 +1289,16 @@
       }
     }
 
-    /* Render Opsi Pilihan Ganda: 1 Kali Klik, Hijau (Benar), Merah (Salah) Tanpa Kunci */
+    /* Render Opsi Pilihan Ganda: Diacak Per Device, 1 Kali Klik, Hijau (Benar), Merah (Salah) Tanpa Kunci */
     function renderMultipleChoice(qData, storageKey) {
       const container = document.getElementById('options-container');
       container.innerHTML = '';
 
       const answeredData = userAnswers[storageKey];
       const isAlreadyAnswered = !!answeredData;
+      const optionsList = getShuffledOptionsForQuestion(qData, storageKey);
 
-      Object.entries(qData.options).forEach(([optKey, optVal]) => {
+      optionsList.forEach((item) => {
         const btn = document.createElement('button');
         btn.type = "button";
         btn.disabled = isAlreadyAnswered;
@@ -1271,7 +1308,7 @@
         if (!isAlreadyAnswered) {
           styleClasses += "bg-white border-slate-200 hover:border-blue-400 hover:bg-blue-50/40 text-slate-800 cursor-pointer shadow-xs active:scale-[0.99]";
         } else {
-          if (answeredData.selectedOption === optKey) {
+          if (answeredData.selectedOption === item.displayLabel) {
             if (answeredData.isCorrect) {
               styleClasses += "bg-emerald-600 text-white border-emerald-700 font-bold shadow-md";
             } else {
@@ -1287,14 +1324,14 @@
         btn.innerHTML = `
           <div class="flex items-center gap-3 min-w-0">
             <span class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs flex-shrink-0 ${
-              isAlreadyAnswered && answeredData.selectedOption === optKey
+              isAlreadyAnswered && answeredData.selectedOption === item.displayLabel
                 ? 'bg-white/20 text-white'
                 : 'bg-slate-100 text-slate-700'
-            }">${optKey}</span>
-            <span class="text-xs sm:text-base leading-snug overflow-x-auto">${optVal}</span>
+            }">${item.displayLabel}</span>
+            <span class="text-xs sm:text-base leading-snug overflow-x-auto">${item.text}</span>
           </div>
           ${
-            isAlreadyAnswered && answeredData.selectedOption === optKey
+            isAlreadyAnswered && answeredData.selectedOption === item.displayLabel
               ? answeredData.isCorrect
                 ? '<svg class="w-5 h-5 text-white flex-shrink-0 ml-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>'
                 : '<svg class="w-5 h-5 text-white flex-shrink-0 ml-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>'
@@ -1303,7 +1340,7 @@
         `;
 
         if (!isAlreadyAnswered) {
-          btn.onclick = () => selectOption(optKey, qData, storageKey);
+          btn.onclick = () => selectOption(item, qData, storageKey);
         }
 
         container.appendChild(btn);
@@ -1314,12 +1351,13 @@
       }
     }
 
-    function selectOption(selectedKey, qData, storageKey) {
+    function selectOption(selectedItem, qData, storageKey) {
       if (userAnswers[storageKey]) return;
 
-      const isCorrect = (selectedKey === qData.answer);
+      const isCorrect = (selectedItem.originalKey === qData.answer);
       userAnswers[storageKey] = {
-        selectedOption: selectedKey,
+        selectedOption: selectedItem.displayLabel,
+        originalKey: selectedItem.originalKey,
         isCorrect: isCorrect,
         questionId: qData.id,
         category: currentCategory,
@@ -1525,6 +1563,7 @@
         studentName,
         studentClass,
         userAnswers,
+        shuffledOptionsMap,
         cachedMetrics: metrics,
         completedAt: new Date().toISOString()
       });
