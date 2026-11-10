@@ -121,7 +121,7 @@
           Latihan ini hanya terbuka selama periode yang telah ditetapkan oleh tim akademik Brain Academy Bogor Permata.
         </p>
         <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl max-w-md mx-auto text-xs sm:text-sm text-slate-700 font-medium">
-          📅 Periode Resmi: <strong class="text-blue-700">9 - 15 November 2026</strong>
+          📅 Periode Resmi: <strong class="text-blue-700">16 - 22 November 2026</strong>
         </div>
       </div>
     </div>
@@ -177,7 +177,7 @@
 
             <div class="flex items-start gap-3">
               <span class="font-bold text-blue-600 bg-blue-50 rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-xs">2</span>
-              <p>Latihan akan terbuka untuk dikerjakan selama periode <strong class="text-slate-900 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">9 - 15 November 2026</strong>.</p>
+              <p>Latihan akan terbuka untuk dikerjakan selama periode <strong class="text-slate-900 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">16 - 22 November 2026</strong>.</p>
             </div>
 
             <div class="flex items-start gap-3">
@@ -258,7 +258,7 @@
     <!-- 2. QUIZ / DRILL INTERFACE -->
     <section id="quiz-view" class="hidden max-w-4xl mx-auto w-full transition-all duration-300">
       
-      <!-- Top Navigator Bar (Alur Terpadu Matdas -> PK, Tanpa Tab Pemilih Bebas) -->
+      <!-- Top Navigator Bar -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 mb-4 sm:mb-5">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
           <div>
@@ -288,7 +288,7 @@
           </div>
         </div>
 
-        <!-- Matdas Section Progress Bar (Menggantikan Tampilan Nomor) -->
+        <!-- Matdas Section Progress Bar -->
         <div id="matdas-progress-container" class="mt-3">
           <div class="flex items-center justify-between text-xs font-semibold text-slate-600 mb-1.5">
             <span id="matdas-progress-text">Progres Bagian: Bagian A dari 13 Bagian (A - M)</span>
@@ -299,7 +299,7 @@
           </div>
         </div>
 
-        <!-- Palet Soal Khusus Pengetahuan Kuantitatif (Hanya Muncul saat PK) -->
+        <!-- Palet Soal Khusus Pengetahuan Kuantitatif -->
         <div id="pk-palette-container" class="mt-3 hidden">
           <div class="flex items-center justify-between text-xs text-slate-500 mb-2">
             <span class="font-medium">Palet Soal Pengetahuan Kuantitatif:</span>
@@ -321,11 +321,9 @@
         <!-- Header Question Card -->
         <div class="flex items-center justify-between pb-3 sm:pb-4 mb-4 border-b border-slate-100">
           <div class="flex items-center gap-3">
-            <!-- Badge Nomor (Hanya Tampil di PK, Disembunyikan di Matdas) -->
             <span id="question-number-display" class="hidden w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-600 text-white font-extrabold items-center justify-center text-base sm:text-lg shadow-md shadow-blue-500/20">
               1
             </span>
-            <!-- Icon Alternatif Khusus Matdas (Tanpa Angka Nomor) -->
             <span id="matdas-icon-display" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-200 font-bold flex items-center justify-center text-sm shadow-sm">
               <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
@@ -339,7 +337,7 @@
             </div>
           </div>
 
-          <!-- Waktu Per Soal di Mobile & Feedback -->
+          <!-- Feedback Alert -->
           <div class="flex items-center gap-2">
             <div id="feedback-alert" class="hidden text-xs font-bold px-3 py-1 rounded-lg">
               <!-- Dynamically populated: Benar / Salah -->
@@ -377,7 +375,7 @@
           </div>
 
           <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
-            <!-- Tombol Selesai Latihan: Hanya muncul ketika seluruh latihan telah tuntas dikerjakan -->
+            <!-- Tombol Selesai Latihan -->
             <button id="btn-finish-test" onclick="finishDrill()" class="hidden w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-emerald-500/30 transition-all flex items-center justify-center gap-2">
               <span>Selesai Latihan & Lihat Analisis Skor</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -440,12 +438,12 @@
           </div>
         </div>
 
-        <!-- Wadah Format Analisis Mentah: Disembunyikan (Hidden) Sesuai Permintaan Agar Tampilan Rapi, Namun Tetap Tersedia untuk Sistem & Google Spreadsheet -->
+        <!-- Wadah Format Analisis Mentah (Hidden) -->
         <div id="formatted-analysis-container" class="hidden" aria-hidden="true">
           <div id="formatted-analysis-box"></div>
         </div>
 
-        <!-- Ringkasan Status Penguasaan Tiap Subtopik (Tampilan Baru yang Bersih & Rapi) -->
+        <!-- Ringkasan Status Penguasaan Tiap Subtopik -->
         <div class="mt-6 sm:mt-8">
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-xs sm:text-base font-bold text-slate-900 flex items-center gap-2">
@@ -461,7 +459,7 @@
           </div>
 
           <div id="subtopics-summary-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <!-- Dynamically populated: badge subtopik, rasio benar/total, status tuntas/perlu penguatan -->
+            <!-- Dynamically populated -->
           </div>
         </div>
 
@@ -482,7 +480,7 @@
           </div>
           
           <div id="consultation-guidance" class="space-y-3">
-            <!-- Dynamically populated with enhanced cards and MathJax LaTeX rendering -->
+            <!-- Dynamically populated -->
           </div>
         </div>
 
@@ -503,10 +501,8 @@
   </main>
 
   <!-- ================= FOOTER ================= -->
-  <!-- Header kiri & Footer kiri dengan ukuran 9pt sesuai ketentuan mutlak prompt -->
   <footer class="bg-white border-t border-slate-200 mt-10 py-4">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <!-- Footer kiri sesuai ketentuan: font size 9pt -->
       <div class="footer-text text-slate-500 font-medium text-left w-full sm:w-auto">
         Copyright © 2026 Brain Academy Bogor Permata. All rights reserved.
       </div>
@@ -528,45 +524,16 @@
   <script>
     /* =========================================================================
        A. KONFIGURASI SISTEM (DEADLINE & GOOGLE APPS SCRIPT URL)
-       Dapat diedit oleh guru/admin di kode ini tanpa memunculkan menu di web.
        ========================================================================= */
 
-    // URL Web App Google Apps Script hasil deploy dari code.js
-    // Masukkan URL Anda di sini. Default fallback ke endpoint simulasi aman.
     const GOOGLE_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzvDU4U-O2SsWzGSsiHAAcbw11UaI-ChNFf0mfId7Y1nsjsWU_f2j1mhBtA60Y-XVLJ/exec";
 
-    // Konfigurasi Periode Ujian / Deadline (Sesuai Aturan: 9 - 15 November 2026)
     const EXAM_CONFIG = {
-      // Ubah ENABLE_DEADLINE menjadi false jika ingin membuka latihan untuk uji coba bebas kapan saja
       ENABLE_DEADLINE: true,
-      START_TIME: "2026-11-09T00:00:00+07:00", // Buka: 6 Nov 2026, 00:00:00 WIB
-      END_TIME:   "2026-11-15T23:59:59+07:00"  // Tutup: 15 Nov 2026, 23:59:59 WIB
+      START_TIME: "2026-11-10T00:00:00+07:00",
+      END_TIME:   "2026-11-22T23:59:59+07:00"
     };
 
-    /**
-     * Logika Durasi Timer Dinamis Per Soal (dalam Detik):
-     * 1. Pendalaman Matematika Dasar:
-     *    - Bagian A (nomor 1-6)   : 30 detik
-     *    - Bagian B (nomor 7-12)  : 30 detik
-     *    - Bagian C (nomor 13-18) : 30 detik
-     *    - Bagian D (nomor 19-24) : 45 detik
-     *    - Bagian E (nomor 25-30) : 45 detik
-     *    - Bagian F (nomor 31-36) : 50 detik
-     *    - Bagian G (nomor 37-42) : 50 detik
-     *    - Bagian H (nomor 43-48) : 60 detik
-     *    - Bagian I (nomor 49-54) : 60 detik
-     *    - Bagian J (nomor 55-60) : 60 detik
-     *    - Bagian K (nomor 61-66) : 75 detik
-     *    - Bagian L (nomor 67-72) : 75 detik
-     *    - Bagian M (nomor 73-78) : 75 detik
-     * 2. Pengetahuan Kuantitatif:
-     *    - Nomor 1-3 : 90 detik
-     *    - Nomor 4-5 : 120 detik
-     *    - Nomor 6   : 90 detik
-     *    - Nomor 7-8 : 150 detik
-     *    - Nomor 9   : 120 detik
-     *    - Nomor 10  : 150 detik
-     */
     function getQuestionDuration(category, questionId) {
       if (category === 'matdas') {
         if (questionId >= 1 && questionId <= 18) {
@@ -600,7 +567,7 @@
     }
 
     /* =========================================================================
-       B. BANK DATA SOAL RESMI LENGKAP DARI DOKUMEN PDF
+       B. BANK DATA SOAL RESMI LENGKAP
        ========================================================================= */
 
     const SECTIONS_METADATA = [
@@ -800,7 +767,6 @@
 
     /* =========================================================================
        C. STORAGE ENGINE DENGAN INDEXEDDB (AUTOSAVE & 1 KALI PENGERJAAN)
-       Memenuhi syarat penyimpanan andal tanpa localStorage.
        ========================================================================= */
 
     const DB_NAME = "BA_SNBT2027_DB";
@@ -808,7 +774,7 @@
     const STORE_NAME = "exam_store";
 
     function openDatabase() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         if (!window.indexedDB) {
           resolve(null);
           return;
@@ -821,12 +787,11 @@
           }
         };
         request.onsuccess = (e) => resolve(e.target.result);
-        request.onerror = (e) => resolve(null);
+        request.onerror = () => resolve(null);
       });
     }
 
     async function saveToDB(key, data) {
-      // Penyimpanan instan via localStorage sebagai proteksi utama saat keluar web tiba-tiba
       try {
         localStorage.setItem(key, JSON.stringify(data));
       } catch (e) {}
@@ -843,7 +808,6 @@
     }
 
     async function loadFromDB(key) {
-      // Cek localStorage terlebih dahulu untuk pengambilan data instan
       try {
         const localVal = localStorage.getItem(key);
         if (localVal) {
@@ -852,7 +816,6 @@
         }
       } catch (e) {}
 
-      // Fallback ke IndexedDB
       try {
         const db = await openDatabase();
         if (!db) return null;
@@ -869,7 +832,7 @@
     }
 
     /* =========================================================================
-       D. STATE MANAGEMENT & TIMER SYSTEM
+       D. STATE MANAGEMENT & FULL SCREEN + SILENT TAB-SWITCH TRACKER
        ========================================================================= */
 
     let currentCategory = 'matdas';
@@ -883,13 +846,59 @@
     let isTestActive = false;
     let isSubmitting = false;
 
-    // Jawaban Tersimpan: { "matdas_6": { selectedOption, isCorrect, questionId, category, section } }
+    // Jawaban & Pelacak Sesi
     let userAnswers = {};
-    let shuffledOptionsMap = {}; // Menyimpan urutan acak opsi per soal untuk konsistensi perangkat & autosave
+    let shuffledOptionsMap = {};
     let currentSectionIdx = 0;
     let remedialActive = false;
 
-    /* Algoritma Pengacakan Opsi Jawaban (Fisher-Yates Shuffle) */
+    // FITUR PENDETEKSI KELUAR TAB TANPA PERINGATAN (SILENT TRACKER)
+    let tabSwitchCount = 0;
+    let lastTabSwitchTime = 0;
+
+    /**
+     * Meminta mode layar penuh (Full Screen API) secara lintas-peramban
+     */
+    function requestFullScreenMode() {
+      try {
+        const docEl = document.documentElement;
+        if (docEl.requestFullscreen) {
+          docEl.requestFullscreen().catch(err => console.debug("Fullscreen request:", err));
+        } else if (docEl.webkitRequestFullscreen) {
+          docEl.webkitRequestFullscreen();
+        } else if (docEl.mozRequestFullScreen) {
+          docEl.mozRequestFullScreen();
+        } else if (docEl.msRequestFullscreen) {
+          docEl.msRequestFullscreen();
+        }
+      } catch (e) {
+        console.debug("Fullscreen API tidak diizinkan atau tidak didukung peramban ini:", e);
+      }
+    }
+
+    /* Event Listener: Deteksi Perpindahan Tab / Aplikasi Hening (Tanpa Peringatan) */
+    document.addEventListener('visibilitychange', () => {
+      if (!isTestActive) return;
+      if (document.visibilityState === 'hidden') {
+        const now = Date.now();
+        if (now - lastTabSwitchTime > 600) { // Debounce pencegah duplikasi hitung
+          tabSwitchCount++;
+          lastTabSwitchTime = now;
+          triggerAutosave(); // Simpan diam-diam
+        }
+      }
+    });
+
+    window.addEventListener('blur', () => {
+      if (!isTestActive) return;
+      const now = Date.now();
+      if (now - lastTabSwitchTime > 800) {
+        tabSwitchCount++;
+        lastTabSwitchTime = now;
+        triggerAutosave(); // Simpan diam-diam
+      }
+    });
+
     function shuffleArray(array) {
       const arr = [...array];
       for (let i = arr.length - 1; i > 0; i--) {
@@ -899,7 +908,6 @@
       return arr;
     }
 
-    /* Mengambil atau Menghasilkan Urutan Acak Opsi Per Soal di Perangkat */
     function getShuffledOptionsForQuestion(qData, storageKey) {
       if (shuffledOptionsMap[storageKey]) {
         return shuffledOptionsMap[storageKey];
@@ -919,7 +927,6 @@
       return shuffledList;
     }
 
-    /* Pengecekan Deadline Akses */
     function checkDeadlineAccess() {
       if (!EXAM_CONFIG.ENABLE_DEADLINE) return true;
 
@@ -931,7 +938,7 @@
         document.getElementById('welcome-view').classList.add('hidden');
         document.getElementById('deadline-notice-view').classList.remove('hidden');
         document.getElementById('deadline-status-title').innerText = "Latihan Belum Dibuka";
-        document.getElementById('deadline-status-desc').innerText = "Latihan Road to SNBT 2027 baru akan terbuka pada tanggal 9 November 2026 pukul 00:00 WIB.";
+        document.getElementById('deadline-status-desc').innerText = "Latihan Road to SNBT 2027 baru akan terbuka pada tanggal 16 November 2026 pukul 00:00 WIB.";
         return false;
       }
 
@@ -939,18 +946,17 @@
         document.getElementById('welcome-view').classList.add('hidden');
         document.getElementById('deadline-notice-view').classList.remove('hidden');
         document.getElementById('deadline-status-title').innerText = "Periode Latihan Telah Berakhir";
-        document.getElementById('deadline-status-desc').innerText = "Periode pengerjaan telah resmi ditutup pada tanggal 15 November 2026 pukul 23:59 WIB.";
+        document.getElementById('deadline-status-desc').innerText = "Periode pengerjaan telah resmi ditutup pada tanggal 22 November 2026 pukul 23:59 WIB.";
         return false;
       }
 
       return true;
     }
 
-    /* Pengecekan Autosave & Kunci 1 Kali Pengerjaan Saat Membuka Web */
     async function initSystemState() {
       if (!checkDeadlineAccess()) return;
 
-      // 1. Cek apakah siswa sudah pernah menyelesaikan latihan (Fitur 1 Kali Pengerjaan)
+      // 1. Cek apakah siswa sudah pernah menyelesaikan latihan
       const finishedState = await loadFromDB("snbt_finished_submission");
       if (finishedState && finishedState.isCompleted) {
         document.getElementById('welcome-view').classList.add('hidden');
@@ -960,6 +966,7 @@
         studentClass = finishedState.studentClass || "";
         userAnswers = finishedState.userAnswers || {};
         shuffledOptionsMap = finishedState.shuffledOptionsMap || {};
+        tabSwitchCount = finishedState.tabSwitchCount || 0;
         renderClosingSummary(finishedState.cachedMetrics);
         return;
       }
@@ -967,18 +974,14 @@
       // 2. Cek apakah ada progres aktif: langsung masuk otomatis ke pengerjaan soal terakhir
       const savedProgress = await loadFromDB("snbt_active_progress");
       if (savedProgress && !savedProgress.isCompleted && savedProgress.studentName) {
-        // Otomatis langsung masuk ke pengerjaan tanpa menampilkan halaman awal atau tombol Mulai
         resumeSavedDrill(savedProgress);
         return;
       }
     }
 
-    /* Lanjutkan Sesi Tersimpan Otomatis ke Soal Terakhir */
     async function resumeSavedDrill(dataPassed) {
       const savedProgress = dataPassed || (await loadFromDB("snbt_active_progress"));
-      if (!savedProgress) {
-        return;
-      }
+      if (!savedProgress) return;
 
       studentName = savedProgress.studentName;
       studentClass = savedProgress.studentClass;
@@ -989,15 +992,18 @@
       userAnswers = savedProgress.userAnswers || {};
       shuffledOptionsMap = savedProgress.shuffledOptionsMap || {};
       totalElapsedSeconds = savedProgress.totalElapsedSeconds || 0;
+      tabSwitchCount = savedProgress.tabSwitchCount || 0;
       currentQuestionSeconds = (savedProgress.remainingSeconds !== undefined && savedProgress.remainingSeconds > 0)
         ? savedProgress.remainingSeconds
         : getQuestionDuration(currentCategory, currentQuestionId);
+
+      // Aktifkan Fullscreen saat melanjutkan sesi
+      requestFullScreenMode();
 
       launchDrillUI();
       showToast(`Melanjutkan latihan otomatis dari soal terakhir untuk ${studentName}`, "💾");
     }
 
-    /* Mulai Latihan Baru */
     function startDrill() {
       const nameInput = document.getElementById('student-name');
       const classSelect = document.getElementById('student-class');
@@ -1024,9 +1030,13 @@
       remedialActive = false;
       currentQuestionId = 6;
       totalElapsedSeconds = 0;
+      tabSwitchCount = 0;
       userAnswers = {};
       shuffledOptionsMap = {};
       currentQuestionSeconds = getQuestionDuration('matdas', 6);
+
+      // Aktifkan mode layar penuh (Full Screen) otomatis
+      requestFullScreenMode();
 
       launchDrillUI();
       showToast(`Latihan dimulai! Selamat berjuang, ${studentName}.`, "🚀");
@@ -1072,9 +1082,6 @@
 
     /* =========================================================================
        E. TIMER SYSTEM PER SOAL
-       - 1 Menit 30 Detik untuk Pendalaman Matematika Dasar
-       - 2 Menit untuk Pengetahuan Kuantitatif
-       - Saat 0 detik: Tandai salah (waktu habis) dan lanjut otomatis ke soal berikutnya
        ========================================================================= */
 
     function startQuestionTimer() {
@@ -1098,7 +1105,6 @@
 
         updateTimerBadgeVisual();
 
-        // Autosave setiap 5 detik agar state waktu selalu mutakhir
         if (currentQuestionSeconds % 5 === 0) {
           triggerAutosave();
         }
@@ -1118,7 +1124,6 @@
       const s = currentQuestionSeconds % 60;
       display.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 
-      // Warna peringatan waktu
       if (currentQuestionSeconds <= 15) {
         badge.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl border font-mono font-bold text-xs sm:text-sm shadow-xs transition-all duration-300 bg-rose-50 text-rose-700 border-rose-300 animate-pulse";
       } else if (currentQuestionSeconds <= 30) {
@@ -1150,7 +1155,6 @@
       }, 600);
     }
 
-    /* Autosave Data ke IndexedDB & LocalStorage */
     function triggerAutosave() {
       if (!isTestActive && !studentName) return;
       const progressPayload = {
@@ -1162,6 +1166,7 @@
         remedialActive,
         userAnswers,
         shuffledOptionsMap,
+        tabSwitchCount, // Rekam counter keluar tab
         remainingSeconds: currentQuestionSeconds,
         totalElapsedSeconds,
         isCompleted: false,
@@ -1176,7 +1181,6 @@
       }
     }
 
-    /* Beralih Otomatis dari Matdas ke Pengetahuan Kuantitatif */
     function startPKSubtest() {
       currentCategory = 'pk';
       currentQuestionId = 1;
@@ -1195,7 +1199,6 @@
       showToast("Tahap 1 Selesai! Melanjutkan ke Pengetahuan Kuantitatif.", "🎉");
     }
 
-    /* Render Palette & Progress */
     function renderPalette() {
       const matdasProgressContainer = document.getElementById('matdas-progress-container');
       const pkPaletteContainer = document.getElementById('pk-palette-container');
@@ -1250,7 +1253,6 @@
       }
     }
 
-    /* Render Pertanyaan Aktif */
     function renderQuestion() {
       if (autoAdvanceTimer) {
         clearTimeout(autoAdvanceTimer);
@@ -1270,7 +1272,6 @@
       feedbackAlert.innerText = "";
 
       if (currentCategory === 'matdas') {
-        // Sembunyikan angka nomor pada Matematika Dasar
         qNumDisplay.classList.add('hidden');
         qNumDisplay.classList.remove('flex');
         matdasIconDisplay.classList.remove('hidden');
@@ -1294,7 +1295,6 @@
         renderMultipleChoice(qData, `matdas_${qData.id}`);
 
       } else {
-        // Tampilkan nomor pada Pengetahuan Kuantitatif
         matdasIconDisplay.classList.add('hidden');
         matdasIconDisplay.classList.remove('flex');
         qNumDisplay.classList.remove('hidden');
@@ -1321,13 +1321,11 @@
 
       checkCompletionStatus();
 
-      // MathJax typesetting
       if (window.MathJax && window.MathJax.typesetPromise) {
         MathJax.typesetPromise([qText, optContainer]).catch(err => console.debug(err));
       }
     }
 
-    /* Render Opsi Pilihan Ganda: Diacak Per Device, 1 Kali Klik, Hijau (Benar), Merah (Salah) Tanpa Kunci */
     function renderMultipleChoice(qData, storageKey) {
       const container = document.getElementById('options-container');
       container.innerHTML = '';
@@ -1407,7 +1405,6 @@
       renderPalette();
       renderQuestion();
 
-      // Berpindah otomatis setelah melihat indikator hijau/merah
       autoAdvanceTimer = setTimeout(() => {
         nextAdaptiveQuestion();
       }, 650);
@@ -1486,10 +1483,6 @@
       }
     }
 
-    /* =========================================================================
-       F. ALGORITMA DIAGNOSTIK ADAPTIF URUTAN TERBALIK
-       ========================================================================= */
-
     function nextAdaptiveQuestion() {
       if (autoAdvanceTimer) {
         clearTimeout(autoAdvanceTimer);
@@ -1503,7 +1496,6 @@
         if (!currentAnswer) return;
 
         if (currentAnswer.isCorrect) {
-          // Benar: Lompat ke soal akhir bagian berikutnya
           if (currentSectionIdx < SECTIONS_METADATA.length - 1) {
             currentSectionIdx++;
             remedialActive = false;
@@ -1513,7 +1505,6 @@
             return;
           }
         } else {
-          // Salah: Urutan terbalik (mundur) hingga nomor pertama bagian tersebut
           if (currentQuestionId > sec.start) {
             remedialActive = true;
             currentQuestionId--;
@@ -1529,7 +1520,6 @@
           }
         }
       } else {
-        // Pengetahuan Kuantitatif (1 - 10)
         let nextUnansweredId = null;
         for (let i = 1; i <= 10; i++) {
           if (!userAnswers[`pk_${i}`]) {
@@ -1580,7 +1570,7 @@
     }
 
     /* =========================================================================
-       G. CLOSING PAGE & PENGIRIMAN KE GOOGLE SPREADSHEET (PK3)
+       G. CLOSING PAGE & PENGIRIMAN DATA
        ========================================================================= */
 
     async function finishDrill() {
@@ -1592,38 +1582,33 @@
         clearInterval(questionCountdownInterval);
       }
 
-      // Hitung skor akhir & analisis subtopik
       const metrics = calculateMetrics();
 
-      // Kunci data pengerjaan (Fitur 1 Kali Pengerjaan)
       await saveToDB("snbt_finished_submission", {
         isCompleted: true,
         studentName,
         studentClass,
         userAnswers,
         shuffledOptionsMap,
+        tabSwitchCount,
         cachedMetrics: metrics,
         completedAt: new Date().toISOString()
       });
 
-      // Hapus data progres aktif yang belum selesai
       await saveToDB("snbt_active_progress", null);
       try {
         localStorage.removeItem("snbt_active_progress");
       } catch (e) {}
 
-      // Render halaman penutup
       document.getElementById('quiz-view').classList.add('hidden');
       document.getElementById('closing-view').classList.remove('hidden');
       document.getElementById('question-timer-badge').classList.add('hidden');
       renderClosingSummary(metrics);
 
-      // Kirim data ke Google Apps Script Spreadsheet secara diam-diam
       sendDataToGoogleSpreadsheet(metrics);
     }
 
     function calculateMetrics() {
-      // 1. Hitung Hasil Pendalaman Matematika Dasar (Bagian A - M)
       let matdasAnswered = 0;
       let matdasCorrect = 0;
       let matdasLines = [];
@@ -1647,8 +1632,6 @@
         matdasAnswered += secAnsweredCount;
         matdasCorrect += secCorrectCount;
 
-        // Format baris analisis Matdas:
-        // A. Subtopik Operasi Hitung Bilangan Bulat (Bagian A) (1/2)
         const ratioText = `(${secCorrectCount}/${secAnsweredCount})`;
         matdasLines.push(`${sec.code}. Subtopik ${sec.title} (Bagian ${sec.code}) ${ratioText}`);
 
@@ -1678,7 +1661,6 @@
       const matdasWrong = matdasAnswered - matdasCorrect;
       const matdasScore = matdasAnswered > 0 ? Math.round((matdasCorrect / matdasAnswered) * 100) : 0;
 
-      // 2. Hitung Hasil Pengetahuan Kuantitatif (Dikelompokkan ke dalam 4 Subtopik A - D)
       const pkSubtopicsDef = [
         { code: "A", title: "Jarak, Garis, dan Sudut", qIds: [1, 10] },
         { code: "B", title: "Bangun Datar", qIds: [2, 3, 5, 7] },
@@ -1707,8 +1689,6 @@
         pkAnswered += subAnswered;
         pkCorrect += subCorrect;
 
-        // Format baris analisis PK:
-        // A. Subtopik Jarak, Garis, dan Sudut (2/2)
         const ratioText = `(${subCorrect}/${subAnswered})`;
         pkLines.push(`${sub.code}. Subtopik ${sub.title} ${ratioText}`);
 
@@ -1738,14 +1718,12 @@
         });
       }
 
-      // 3. Susun Format Analisis Latihan Mentah Sesuai Permintaan
       const fullAnalysisText = `1. Analisis Pendalaman Matematika Dasar:\n${matdasLines.join("\n")}\n\n2. Analisis Pengetahuan Kuantitatif:\n${pkLines.join("\n")}`;
 
       const totalAnswered = matdasAnswered + pkAnswered;
       const totalCorrect = matdasCorrect + pkCorrect;
       const totalWrong = matdasWrong + pkWrong;
       const overallScore = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
-      const accuracyRate = overallScore;
 
       return {
         matdasScore,
@@ -1761,8 +1739,8 @@
         totalAnswered,
         totalCorrect,
         totalWrong,
+        tabSwitchCount,
         overallScore,
-        accuracyRate,
         fullAnalysisText,
         consultationNotes,
         subtopicBreakdown
@@ -1773,23 +1751,18 @@
       document.getElementById('student-name-result').innerText = studentName;
       document.getElementById('student-class-result').innerText = `Kelas ${studentClass}`;
 
-      // 1. Nilai Pendalaman Matematika Dasar
       document.getElementById('matdas-score-val').innerText = metrics.matdasScore;
       document.getElementById('matdas-ratio-val').innerText = `${metrics.matdasCorrect} benar dari ${metrics.matdasAnswered} soal ditampilkan`;
 
-      // 2. Nilai Pengetahuan Kuantitatif
       document.getElementById('pk-score-val').innerText = metrics.pkScore;
       document.getElementById('pk-ratio-val').innerText = `${metrics.pkCorrect} benar dari ${metrics.pkAnswered} soal ditampilkan`;
 
-      // Ringkasan Gabungan
       document.getElementById('total-correct-val').innerText = metrics.totalCorrect;
       document.getElementById('total-wrong-val').innerText = metrics.totalWrong;
       document.getElementById('correct-ratio-val').innerText = `${metrics.totalCorrect} benar dari ${metrics.totalAnswered} dikerjakan`;
 
-      // Simpan format analisis dua bagian di elemen tersembunyi
       document.getElementById('formatted-analysis-box').innerText = metrics.fullAnalysisText;
 
-      // 1. Render Pemetaan Penguasaan Subtopik (Tampilan Bersih & Rapi)
       const subtopicsGrid = document.getElementById('subtopics-summary-grid');
       if (subtopicsGrid) {
         subtopicsGrid.innerHTML = '';
@@ -1813,7 +1786,6 @@
         }
       }
 
-      // 2. Render Kartu Rekomendasi Konsultasi Klinik PR BA (Desain Premium & Rapi)
       const consultContainer = document.getElementById('consultation-guidance');
       consultContainer.innerHTML = '';
 
@@ -1871,7 +1843,6 @@
         });
       }
 
-      // 3. Render MathJax typeset pada seluruh halaman penutup agar model matematika terformat sempurna
       if (window.MathJax && window.MathJax.typesetPromise) {
         window.MathJax.typesetPromise([document.getElementById('closing-view')])
           .catch(err => console.debug("MathJax typesetting error on closing view:", err));
@@ -1880,12 +1851,10 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /* Mengirim Data ke Spreadsheet Melalui Google Apps Script Web App */
     async function sendDataToGoogleSpreadsheet(metrics) {
       const syncStatus = document.getElementById('sync-status-indicator');
       syncStatus.innerHTML = `<span class="inline-block animate-spin mr-1">⏳</span> Menyinkronkan ke Spreadsheet PK3...`;
 
-      // Format durasi pengerjaan aktual siswa dalam format "menit:detik" (mm:ss)
       const durM = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
       const durS = (totalElapsedSeconds % 60).toString().padStart(2, '0');
       const formattedDuration = `${durM}:${durS}`;
@@ -1906,6 +1875,8 @@
         workDuration: formattedDuration,
         sisaWaktu: formattedDuration,
         remainingTime: formattedDuration,
+        tabSwitchCount: metrics.tabSwitchCount,
+        keluarTab: `${metrics.tabSwitchCount} kali`,
         analisisLatihan: metrics.fullAnalysisText,
         analysis: metrics.fullAnalysisText
       };
@@ -1986,20 +1957,12 @@
       }, 3000);
     }
 
-    // Auto-save saat siswa berpindah tab, menutup browser, atau keluar dari aplikasi
     window.addEventListener('beforeunload', () => {
       if (isTestActive) {
         triggerAutosave();
       }
     });
 
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden' && isTestActive) {
-        triggerAutosave();
-      }
-    });
-
-    // Inisialisasi awal saat window dimuat
     window.onload = function() {
       initSystemState();
     };
